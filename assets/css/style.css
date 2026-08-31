@@ -1,0 +1,1443 @@
+/* ============================================
+   PORTAFOLIO WEB — BLEACH MANGA PAPER EDITION
+   Aged paper · Screentones · Action panels
+   Tite Kubo style · High contrast ink
+   ============================================ */
+
+/* ---------- Fuentes de Google ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* =============================================
+   TOKENS DE DISEÑO — Paleta Manga Bleach
+   ============================================= */
+:root {
+  /* ── Papel y Tinta (Sensación manga base) ── */
+  --paper-base:       #F2E6C9;   /* página de manga envejecida */
+  --paper-light:      #FAF3E0;   /* áreas brillantes de la página */
+  --paper-mid:        #E8D5A3;   /* papel de tono medio */
+  --paper-dark:       #D4B896;   /* áreas de sombra en el papel */
+  --paper-worn:       #C8A87A;   /* bordes muy desgastados */
+
+  --ink-black:        #0D0D0D;   /* tinta oscura de manga */
+  --ink-dark:         #1A1A1A;   /* tinta ligeramente más clara */
+  --ink-medium:       #2C2C2C;   /* áreas oscuras de semitono */
+
+  /* ── Colores de Acento Bleach ── */
+  --reiatsu-orange:   #E8581A;   /* energía espiritual de Ichigo */
+  --reiatsu-hot:      #FF4500;   /* resplandor naranja cálido */
+  --reiatsu-dim:      rgba(232, 88, 26, 0.18);
+
+  --hollow-teal:      #007F7C;   /* máscara Hollow / presión espiritual */
+  --hollow-light:     #00B4AF;   /* acento verde azulado brillante */
+  --hollow-dim:       rgba(0, 127, 124, 0.18);
+
+  --blood-red:        #8B0000;   /* rojo oscuro carmesí */
+  --blood-bright:     #CC1111;   /* acento de sangre brillante */
+
+  --spark-neon:       #CCFF00;   /* chispa de energía / neón */
+  --spark-dim:        rgba(204, 255, 0, 0.15);
+
+  --screentone-dot:   rgba(13, 13, 13, 0.12); /* puntos de semitono (screentone) */
+  --screentone-heavy: rgba(13, 13, 13, 0.25);
+
+  /* ── Panel y Bordes ── */
+  --panel-border:     4px solid var(--ink-black);
+  --panel-border-thick: 6px solid var(--ink-black);
+  --panel-gutter:     6px;
+  --panel-shadow:     6px 6px 0px var(--ink-black);
+  --panel-shadow-lg:  8px 8px 0px var(--ink-black);
+  --panel-shadow-color: 6px 6px 0px var(--reiatsu-orange);
+  --panel-shadow-teal:  6px 6px 0px var(--hollow-teal);
+
+  /* ── Texto ── */
+  --text-ink:         #0D0D0D;
+  --text-paper:       #F2E6C9;
+  --text-muted-ink:   #4A3F35;
+  --text-muted-paper: #8A7560;
+
+  /* ── Tipografía ── */
+  --ff-heading:  'Bebas Neue', sans-serif;
+  --ff-sub:      'Oswald', sans-serif;
+  --ff-body:     'Inter', sans-serif;
+
+  /* ── Tamaños de Fuente ── */
+  --fs-xs:   0.72rem;
+  --fs-sm:   0.85rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.2rem;
+  --fs-xl:   1.6rem;
+  --fs-2xl:  2.4rem;
+  --fs-3xl:  3.5rem;
+  --fs-hero: clamp(3.5rem, 2.5rem + 5vw, 7rem);
+
+  /* ── Espaciado ── */
+  --space-xs:   0.25rem;
+  --space-sm:   0.5rem;
+  --space-md:   1rem;
+  --space-lg:   1.5rem;
+  --space-xl:   2.5rem;
+  --space-2xl:  4rem;
+  --space-3xl:  6rem;
+
+  /* ── Transiciones ── */
+  --ease-snap:  cubic-bezier(0.5, 0, 0, 1);
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --duration:   0.25s;
+
+  /* ── Diseño / Estructura ── */
+  --header-h:   68px;
+  --max-width:  1200px;
+}
+
+/* =============================================
+   RESETEO (Estilos Base)
+   ============================================= */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-body);
+  font-size: var(--fs-base);
+  color: var(--text-ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+
+  /* ── Base de papel envejecido ── */
+  background-color: var(--paper-base);
+
+  /* ── Textura de papel en capas ──
+     1. Puntos de semitono (screentone)
+     2. Ruido de grano de papel
+     3. Líneas verticales (artefacto de impresión)
+     4. Viñeteado en los bordes
+  */
+  background-image:
+    /* viñeteado suave */
+    radial-gradient(ellipse at center,
+      transparent 40%,
+      rgba(139, 100, 50, 0.18) 100%
+    ),
+    /* superposición de puntos de semitono */
+    radial-gradient(circle, var(--screentone-dot) 1px, transparent 1px),
+    /* grano de papel (rugoso) */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    /* degradado de página amarillenta */
+    linear-gradient(
+      160deg,
+      #FBF0D5 0%,
+      #F2E4BE 35%,
+      #EDD9A8 65%,
+      #E5CF98 100%
+    );
+  background-size: 100%, 8px 8px, 300px 300px, 100%;
+  background-attachment: fixed, fixed, fixed, fixed;
+}
+
+/* Superposición de salpicaduras de tinta en el body */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    /* manchas de desgaste en las esquinas */
+    radial-gradient(ellipse at 0% 0%, rgba(100,70,30,0.18) 0%, transparent 35%),
+    radial-gradient(ellipse at 100% 100%, rgba(80,55,25,0.20) 0%, transparent 35%),
+    radial-gradient(ellipse at 100% 0%, rgba(90,60,20,0.12) 0%, transparent 25%),
+    radial-gradient(ellipse at 0% 100%, rgba(110,75,30,0.15) 0%, transparent 28%);
+}
+
+/* Artefacto de impresión manga — superposición de ruido global */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img, video, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+::selection {
+  background: var(--reiatsu-orange);
+  color: var(--paper-light);
+}
+
+/* =============================================
+   CLASES DE UTILIDAD
+   ============================================= */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ── Utilidad de screentone Manga ── */
+.screentone {
+  background-image: radial-gradient(circle, rgba(13,13,13,0.18) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+
+/* =============================================
+   CABECERA — Barra de tinta en papel envejecido
+   ============================================= */
+.site-header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: var(--header-h);
+  z-index: 1000;
+  background: var(--ink-black);
+  border-bottom: var(--panel-border-thick);
+  border-bottom-color: var(--reiatsu-orange);
+  transition: all var(--duration) var(--ease-out);
+}
+
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 6px 6px;
+  pointer-events: none;
+}
+
+.site-header.scrolled {
+  border-bottom-color: var(--hollow-light);
+  box-shadow: 0 4px 0 var(--hollow-teal);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Logo */
+.logo {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.05em;
+  color: var(--paper-light);
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 var(--reiatsu-orange);
+  transition: all var(--duration) var(--ease-snap);
+}
+.logo:hover {
+  color: var(--reiatsu-orange);
+  text-shadow: 3px 3px 0 var(--ink-black);
+}
+
+/* Nav */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--ff-sub);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-mid);
+  border: 2px solid transparent;
+  transition: all var(--duration) var(--ease-snap);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 3px;
+  background: var(--reiatsu-orange);
+  transition: width var(--duration) var(--ease-snap);
+}
+
+.nav-link:hover {
+  color: var(--spark-neon);
+  background: rgba(204,255,0,0.08);
+  border-color: var(--spark-neon);
+}
+.nav-link:hover::after { width: 100%; background: var(--spark-neon); }
+
+.nav-link.active {
+  color: var(--ink-black);
+  background: var(--reiatsu-orange);
+  border-color: var(--reiatsu-orange);
+  box-shadow: 3px 3px 0 var(--ink-black);
+}
+.nav-link.active::after { width: 0; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 42px; height: 42px;
+  padding: 8px;
+  border: 2px solid var(--paper-mid);
+  transition: all var(--duration) var(--ease-snap);
+  z-index: 1100;
+}
+.hamburger:hover { border-color: var(--reiatsu-orange); background: rgba(232,88,26,0.1); }
+.hamburger span {
+  display: block; width: 100%; height: 2px;
+  background: var(--paper-light);
+  transition: transform var(--duration) var(--ease-snap), opacity var(--duration) var(--ease-out);
+  transform-origin: center;
+}
+.hamburger.open span { background: var(--spark-neon); }
+.hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Menú Móvil */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-menu {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(320px, 85vw); height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-2xl) var(--space-xl);
+    background: var(--ink-black);
+    border-left: var(--panel-border-thick);
+    border-left-color: var(--reiatsu-orange);
+    transform: translateX(100%);
+    transition: transform 0.4s var(--ease-snap);
+    z-index: 1050;
+  }
+  .nav-menu.open { transform: translateX(0); }
+  .nav-link { font-size: var(--fs-lg); padding: var(--space-md) var(--space-lg); border-bottom: 1px solid #2a2a2a; }
+  .nav-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.72);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s; z-index: 1040;
+  }
+  .nav-overlay.visible { opacity: 1; pointer-events: all; }
+}
+@media (min-width: 769px) { .hamburger { display: none !important; } }
+
+/* =============================================
+   CONTENIDO PRINCIPAL
+   ============================================= */
+#app-content { margin-top: var(--header-h); }
+
+/* Animación al hacer scroll */
+.about-grid,
+.skill-group,
+.project-card,
+.contact-grid,
+.section-header {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s var(--ease-snap), transform 0.55s var(--ease-snap);
+}
+.skill-group:nth-child(2)  { transition-delay: 0.1s; }
+.skill-group:nth-child(3)  { transition-delay: 0.2s; }
+.project-card:nth-child(2) { transition-delay: 0.08s; }
+.project-card:nth-child(3) { transition-delay: 0.16s; }
+.project-card:nth-child(4) { transition-delay: 0.24s; }
+.about-grid.is-visible,
+.skill-group.is-visible,
+.project-card.is-visible,
+.contact-grid.is-visible,
+.section-header.is-visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* =============================================
+   SECCIÓN HERO (Inicio) — Salpicadura de tinta
+   ============================================= */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-2xl) var(--space-lg);
+  overflow: hidden;
+  background: var(--ink-black);
+}
+
+/* Líneas de velocidad (Speed lines) — explosión radial desde el centro */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg at 60% 50%,
+    transparent 0deg,
+    rgba(255,255,255,0.015) 1deg,
+    transparent 2deg,
+    transparent 4deg,
+    rgba(255,255,255,0.025) 5deg,
+    transparent 6deg,
+    transparent 9deg,
+    rgba(255,255,255,0.012) 10deg,
+    transparent 11deg,
+    transparent 14deg,
+    rgba(255,255,255,0.02) 15deg,
+    transparent 16deg,
+    transparent 20deg,
+    rgba(255,255,255,0.018) 21deg,
+    transparent 22deg,
+    transparent 25deg,
+    rgba(255,255,255,0.015) 26deg,
+    transparent 27deg,
+    transparent 30deg,
+    rgba(255,255,255,0.022) 31deg,
+    transparent 32deg,
+    transparent 36deg,
+    rgba(255,255,255,0.01) 37deg,
+    transparent 38deg,
+    transparent 43deg,
+    rgba(255,255,255,0.02) 44deg,
+    transparent 45deg,
+    transparent 360deg
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Textura de screentone oscura en la sección Hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 7px 7px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
+}
+/* Explosión de reiatsu naranja — lado derecho */
+.hero-bg .orb--accent {
+  position: absolute;
+  width: 55vw; height: 130%;
+  top: -20%; right: -10%;
+  background: linear-gradient(150deg, rgba(232,88,26,0.22) 0%, transparent 65%);
+  transform: skewX(-10deg);
+}
+/* Energía Hollow verde azulada — lado izquierdo */
+.hero-bg .orb--accent2 {
+  position: absolute;
+  width: 40vw; height: 90%;
+  bottom: -15%; left: -5%;
+  background: linear-gradient(30deg, rgba(0,127,124,0.18) 0%, transparent 60%);
+  transform: skewX(6deg);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: left; max-width: 800px; width: 100%;
+}
+
+/* Insignia — etiqueta de capítulo de manga */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 4px var(--space-md);
+  margin-bottom: var(--space-xl);
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hollow-light);
+  background: var(--ink-black);
+  border: 2px solid var(--hollow-light);
+  box-shadow: 3px 3px 0 var(--hollow-teal);
+}
+
+.hero-badge .pulse {
+  width: 7px; height: 7px;
+  background: var(--spark-neon);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: pulseDiamond 1.5s ease-in-out infinite;
+}
+@keyframes pulseDiamond {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50%      { opacity: 0.4; transform: scale(1.4) rotate(45deg); }
+}
+
+/* Título Hero — texto blanco impactante, acento naranja */
+.hero-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-hero);
+  line-height: 0.93;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--paper-light);
+  margin-bottom: var(--space-lg);
+  /* Sensación de texto en tinta — ligera aspereza */
+  text-shadow: 3px 0 0 rgba(0,0,0,0.4);
+}
+.hero-title .highlight {
+  color: var(--reiatsu-orange);
+  text-shadow:
+    3px 3px 0 var(--blood-red),
+    5px 5px 0 rgba(0,0,0,0.3);
+}
+
+/* Subtítulo — sobre un cartel de papel */
+.hero-subtitle {
+  font-size: var(--fs-lg);
+  font-weight: 300;
+  color: var(--paper-mid);
+  max-width: 540px;
+  margin-bottom: var(--space-2xl);
+  line-height: 1.8;
+  border-left: 4px solid var(--reiatsu-orange);
+  padding-left: var(--space-md);
+  background: rgba(242,230,201,0.06);
+}
+
+.hero-actions {
+  display: flex; align-items: center;
+  gap: var(--space-md); flex-wrap: wrap;
+}
+
+/* =============================================
+   BOTONES — Paneles Manga
+   ============================================= */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--space-sm);
+  padding: 13px 28px;
+  font-family: var(--ff-sub); font-size: var(--fs-sm);
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 3px solid var(--ink-black);
+  border-radius: 0; cursor: pointer;
+  transition: all var(--duration) var(--ease-snap);
+  position: relative;
+}
+.btn:active { transform: translate(3px, 3px); box-shadow: none !important; }
+
+.btn-primary {
+  color: var(--ink-black);
+  background: var(--reiatsu-orange);
+  border-color: var(--ink-black);
+  box-shadow: var(--panel-shadow);
+}
+.btn-primary:hover {
+  background: var(--spark-neon);
+  box-shadow: 6px 6px 0 var(--hollow-teal);
+}
+
+.btn-outline {
+  color: var(--paper-light);
+  background: transparent;
+  border-color: var(--paper-mid);
+}
+.btn-outline:hover {
+  color: var(--ink-black);
+  background: var(--paper-light);
+  border-color: var(--paper-light);
+  box-shadow: 6px 6px 0 var(--reiatsu-orange);
+}
+
+.btn-sm { padding: 9px 18px; font-size: var(--fs-xs); border-width: 2px; }
+.btn-full { width: 100%; justify-content: center; }
+
+.btn .icon { transition: transform var(--duration) var(--ease-snap); }
+.btn:hover .icon { transform: translateX(4px); }
+
+/* Indicador de desplazamiento (Scroll) */
+.scroll-indicator {
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: var(--space-sm);
+  margin-top: var(--space-3xl);
+  color: var(--paper-worn);
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+.scroll-indicator .mouse {
+  width: 20px; height: 34px;
+  border: 2px solid var(--paper-worn); position: relative;
+}
+.scroll-indicator .mouse::after {
+  content: '';
+  position: absolute; top: 6px; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; height: 8px;
+  background: var(--reiatsu-orange);
+  animation: scrollInk 2s ease-in-out infinite;
+}
+@keyframes scrollInk {
+  0%, 100% { opacity: 1; transform: translate(-50%, 0); }
+  50%       { opacity: 0; transform: translate(-50%, 12px); }
+}
+
+/* =============================================
+   ESTRUCTURA DE SECCIONES — Fondo de papel
+   ============================================= */
+.about-section,
+.projects-section,
+.contact-section {
+  padding: var(--space-3xl) 0;
+  position: relative;
+}
+
+/* Secciones oscuras alternadas */
+.projects-section {
+  background: var(--ink-black);
+  /* screentone sobre fondo oscuro */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(var(--ink-black), var(--ink-black));
+  background-size: 8px 8px, 100%;
+  color: var(--paper-light);
+}
+.projects-section .section-label  { color: var(--hollow-light); }
+.projects-section .section-heading { color: var(--paper-light); }
+.projects-section .section-heading::after { background: var(--reiatsu-orange); }
+.projects-section .section-intro  { color: var(--paper-mid); border-left-color: var(--hollow-teal); }
+
+/* Cabeceras de sección */
+.section-header { margin-bottom: var(--space-2xl); }
+
+.section-label {
+  display: block;
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--reiatsu-orange);
+  margin-bottom: var(--space-xs);
+}
+
+.section-heading {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-3xl);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-black);
+  position: relative;
+  display: inline-block;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  /* Sombra de texto en tinta — sensación de impresión */
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+.section-heading::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 70px; height: 5px;
+  background: var(--reiatsu-orange);
+  box-shadow: 3px 3px 0 var(--ink-black);
+}
+
+.section-intro {
+  font-size: var(--fs-lg); color: var(--text-muted-ink);
+  max-width: 580px; line-height: 1.8;
+  margin-bottom: var(--space-2xl);
+  border-left: 4px solid var(--hollow-teal);
+  padding-left: var(--space-md);
+}
+
+/* Divisor con degradado de tinta */
+.ink-divider {
+  border: none; height: 4px;
+  background: linear-gradient(90deg, var(--reiatsu-orange), var(--hollow-teal), transparent);
+  margin: var(--space-3xl) 0;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+/* =============================================
+   SECCIÓN SOBRE MÍ — Panel de perfil de manga
+   ============================================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+/* Retrato como panel de manga */
+.portrait-frame {
+  position: relative;
+  width: 100%; aspect-ratio: 3 / 4;
+  background: var(--paper-mid);
+  border: var(--panel-border-thick);
+  border-color: var(--ink-black);
+  box-shadow: var(--panel-shadow);
+  overflow: hidden;
+}
+/* Screentone de panel dentro del retrato */
+.portrait-frame::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(13,13,13,0.16) 1px, transparent 1px);
+  background-size: 6px 6px;
+  z-index: 0;
+}
+/* Corte diagonal — línea de acción */
+.portrait-frame::after {
+  content: '';
+  position: absolute;
+  top: -20%; left: 40%;
+  width: 4px; height: 150%;
+  background: rgba(232,88,26,0.35);
+  transform: rotate(15deg);
+  z-index: 1;
+}
+.portrait-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Filter to blend with Manga aesthetic if needed, or keep color */
+  filter: contrast(1.1) saturate(1.1);
+}
+.portrait-placeholder {
+  position: relative; z-index: 2;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(155deg, var(--paper-light) 0%, var(--paper-dark) 100%);
+}
+.portrait-initial {
+  font-family: var(--ff-heading);
+  font-size: 9rem; color: var(--ink-black);
+  text-shadow: 5px 5px 0 var(--reiatsu-orange), 8px 8px 0 rgba(0,0,0,0.2);
+  opacity: 0.9; user-select: none; line-height: 1;
+}
+.portrait-stripe {
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 7px;
+  background: var(--reiatsu-orange);
+}
+.portrait-tag { margin-top: var(--space-md); text-align: center; }
+
+/* Contenido de la biografía */
+.about-name {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-shadow: 2px 2px 0 var(--reiatsu-orange);
+  margin-bottom: var(--space-xs);
+}
+.about-role {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-sm); font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--hollow-teal);
+  margin-bottom: var(--space-xl);
+}
+.about-text { margin-bottom: var(--space-xl); }
+.about-text p { color: var(--text-muted-ink); margin-bottom: var(--space-md); line-height: 1.8; }
+
+/* Estadísticas y Experiencia — como cajas de información manga */
+.about-stats {
+  display: flex; gap: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 4px solid var(--ink-black);
+}
+.stat-item { display: flex; flex-direction: column; }
+.stat-number {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  color: var(--reiatsu-orange);
+  text-shadow: 2px 2px 0 var(--blood-red);
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted-ink);
+  margin-top: var(--space-xs);
+}
+
+/* Timeline Experiencia y Educación */
+.experience-grid {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+.exp-card {
+  padding: var(--space-md);
+  background: var(--paper-light);
+  border: var(--panel-border);
+  border-color: var(--ink-black);
+  box-shadow: 4px 4px 0 var(--ink-black);
+  position: relative;
+  transition: all var(--duration) var(--ease-snap);
+}
+.exp-card:hover {
+  border-color: var(--reiatsu-orange);
+  box-shadow: 4px 4px 0 var(--reiatsu-orange);
+  transform: translate(-2px, -2px);
+}
+.exp-date {
+  display: inline-block;
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--paper-light);
+  background: var(--ink-black);
+  padding: 2px 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-xs);
+}
+.exp-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-lg);
+  color: var(--ink-black);
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.exp-company {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-sm);
+  color: var(--hollow-teal);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-sm);
+}
+.exp-desc, .exp-desc-list {
+  font-size: var(--fs-sm);
+  color: var(--text-muted-ink);
+  line-height: 1.6;
+}
+.exp-desc-list {
+  list-style: square;
+  padding-left: var(--space-lg);
+  margin-top: var(--space-xs);
+}
+.exp-desc-list li {
+  margin-bottom: 6px;
+}
+.exp-desc-list strong {
+  color: var(--ink-black);
+}
+
+/* =============================================
+   HABILIDADES — Circular Progress
+   ============================================= */
+.skills-grid-circular {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--space-2xl);
+  justify-items: center;
+}
+
+.skill-circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s var(--ease-snap), transform 0.55s var(--ease-snap);
+}
+
+.skill-circle-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.circular-progress {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(var(--reiatsu-orange) var(--progress, 0%), var(--paper-dark) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--panel-shadow);
+  border: var(--panel-border);
+  transition: --progress 1.5s var(--ease-snap);
+}
+
+/* Propiedad personalizada para animar el conic-gradient suavemente (soportado en navegadores modernos) */
+@property --progress {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.inner-circle {
+  width: 86px;
+  height: 86px;
+  background-color: var(--paper-light);
+  border-radius: 50%;
+  border: 3px solid var(--ink-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.inner-circle img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  /* Efecto manga inicial (escala de grises), y color en hover */
+  filter: grayscale(100%) contrast(150%);
+  transition: filter 0.3s var(--ease-snap);
+}
+
+.skill-circle-item:hover .inner-circle img {
+  filter: grayscale(0%) contrast(100%);
+}
+
+.skill-circle-item:hover .circular-progress {
+  box-shadow: 6px 6px 0 var(--hollow-teal);
+  border-color: var(--hollow-teal);
+}
+
+.skill-name {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-lg);
+  color: var(--ink-black);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* =============================================
+   TAG
+   ============================================= */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--hollow-teal);
+  background: var(--paper-light);
+  border: 2px solid var(--hollow-teal);
+}
+/* On dark backgrounds */
+.projects-section .tag {
+  color: var(--hollow-light);
+  background: rgba(0,127,124,0.12);
+  border-color: var(--hollow-light);
+}
+
+/* =============================================
+   TARJETAS DE PROYECTOS — Paneles de acción manga / viñetas
+   ============================================= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto;
+  gap: var(--panel-gutter);
+}
+
+/* Diseño del grid — como una página de manga */
+.project-card:nth-child(1) { grid-column: 1 / 7;  grid-row: 1; } /* ancho a la izquierda  */
+.project-card:nth-child(2) { grid-column: 7 / 13; grid-row: 1; } /* ancho a la derecha */
+.project-card:nth-child(3) { grid-column: 1 / 5;  grid-row: 2; } /* estrecho     */
+.project-card:nth-child(4) { grid-column: 5 / 13; grid-row: 2; } /* más ancho      */
+
+.project-card {
+  position: relative;
+  background: var(--paper-light);
+  border: var(--panel-border-thick);
+  border-color: var(--ink-black);
+  box-shadow: var(--panel-shadow-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--duration) var(--ease-snap);
+}
+
+/* Número del panel — esquina superior izquierda */
+.project-card::before {
+  content: attr(data-panel);
+  position: absolute;
+  top: 0; left: 0;
+  padding: 2px 10px;
+  font-family: var(--ff-heading);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  color: var(--paper-light);
+  background: var(--ink-black);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Líneas de velocidad en la esquina superior derecha al pasar el cursor */
+.project-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: conic-gradient(
+    from 315deg at 110% -10%,
+    transparent 0deg,
+    rgba(232,88,26,0.08) 1deg,
+    transparent 2.5deg,
+    transparent 5deg,
+    rgba(232,88,26,0.06) 6deg,
+    transparent 7.5deg,
+    transparent 10deg,
+    rgba(232,88,26,0.07) 11deg,
+    transparent 12deg,
+    transparent 16deg,
+    rgba(232,88,26,0.05) 17deg,
+    transparent 18deg,
+    transparent 360deg
+  );
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease-snap);
+  pointer-events: none;
+  z-index: 1;
+}
+.project-card:hover::after { opacity: 1; }
+.project-card:hover {
+  border-color: var(--reiatsu-orange);
+  box-shadow: 8px 8px 0 var(--reiatsu-orange);
+  transform: translate(-4px, -4px);
+}
+
+/* Miniatura del panel — escena de manga */
+.project-thumb {
+  position: relative; width: 100%;
+  aspect-ratio: 16 / 9; overflow: hidden;
+}
+.project-thumb-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+/* Superposición de screentone en miniatura */
+.project-thumb-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.2) 1px, transparent 1px);
+  background-size: 5px 5px;
+  z-index: 1;
+}
+/* Líneas diagonales — acción */
+.project-thumb-inner::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 18px,
+    rgba(0,0,0,0.08) 18px,
+    rgba(0,0,0,0.08) 20px
+  );
+  z-index: 2;
+}
+.project-number {
+  font-family: var(--ff-heading);
+  font-size: 5.5rem;
+  color: rgba(255,255,255,0.15);
+  user-select: none; line-height: 1;
+  position: relative; z-index: 3;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+}
+
+/* Superposición — capa oscura + botón de demo */
+.project-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(13,13,13,0.88);
+  /* screentone sobre superposición */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(13,13,13,0.88), rgba(13,13,13,0.88));
+  background-size: 6px 6px, 100%;
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease-snap);
+  z-index: 4;
+}
+.project-card:hover .project-overlay { opacity: 1; }
+
+/* Área de información del proyecto — estilo de caja de texto */
+.project-info {
+  padding: var(--space-md) var(--space-lg);
+  background: var(--paper-light);
+  border-top: 3px solid var(--ink-black);
+  position: relative; z-index: 5;
+}
+.project-info .card-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-black);
+  margin-bottom: var(--space-xs);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+}
+.project-info .card-text {
+  color: var(--text-muted-ink);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  margin-bottom: var(--space-sm);
+}
+.project-tags {
+  display: flex; flex-wrap: wrap;
+  gap: 4px; margin-bottom: var(--space-sm);
+}
+.project-links {
+  display: flex; gap: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 2px solid var(--ink-black);
+}
+.project-link {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted-ink);
+  transition: color var(--duration) var(--ease-snap);
+}
+.project-link:hover { color: var(--reiatsu-orange); }
+
+/* =============================================
+   SECCIÓN DE CONTACTO — Calidez del papel
+   ============================================= */
+.contact-section {
+  background: var(--paper-base);
+  position: relative;
+}
+/* Mancha de tinta en el borde superior */
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--ink-black);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.contact-headline {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  text-transform: uppercase;
+  letter-spacing: 0.02em; line-height: 1.1;
+  margin-bottom: var(--space-lg);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+}
+.highlight-orange {
+  color: var(--reiatsu-orange);
+  text-shadow: 2px 2px 0 var(--blood-red), 4px 4px 0 rgba(0,0,0,0.15);
+}
+.contact-text {
+  color: var(--text-muted-ink); line-height: 1.8;
+  margin-bottom: var(--space-2xl);
+}
+.contact-socials-title {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-muted-ink); margin-bottom: var(--space-md);
+}
+.contact-social-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+/* Tarjetas sociales — estilo de panel de información manga */
+.social-card {
+  display: flex; align-items: center; gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--paper-light);
+  border: var(--panel-border);
+  border-color: var(--ink-black);
+  box-shadow: 4px 4px 0 var(--ink-black);
+  transition: all var(--duration) var(--ease-snap);
+  position: relative; overflow: hidden;
+}
+.social-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(13,13,13,0.09) 1px, transparent 1px);
+  background-size: 6px 6px;
+  pointer-events: none;
+}
+.social-card:hover {
+  border-color: var(--hollow-teal);
+  box-shadow: 4px 4px 0 var(--hollow-teal);
+  transform: translate(-2px, -2px);
+  background: var(--paper-mid);
+}
+.social-card-icon {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-xl);
+  color: var(--hollow-teal);
+  min-width: 36px; text-align: center;
+  position: relative; z-index: 1;
+  text-shadow: 2px 2px 0 var(--ink-black);
+}
+.social-card-name {
+  display: block;
+  font-family: var(--ff-sub);
+  font-size: var(--fs-sm); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-black); position: relative; z-index: 1;
+}
+.social-card-handle {
+  display: block; font-size: var(--fs-xs);
+  color: var(--text-muted-ink); position: relative; z-index: 1;
+}
+.social-card-arrow {
+  margin-left: auto; font-size: var(--fs-lg);
+  color: var(--text-muted-ink);
+  transition: all var(--duration) var(--ease-snap);
+  position: relative; z-index: 1;
+}
+.social-card:hover .social-card-arrow {
+  color: var(--reiatsu-orange); transform: translate(3px, -3px);
+}
+
+/* Formulario de Contacto — panel en el papel */
+.contact-form-wrap {
+  background: var(--paper-light);
+  border: var(--panel-border-thick);
+  border-color: var(--ink-black);
+  box-shadow: var(--panel-shadow-lg);
+  padding: var(--space-xl);
+  position: relative; overflow: hidden;
+}
+.contact-form-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(13,13,13,0.08) 1px, transparent 1px);
+  background-size: 7px 7px;
+  pointer-events: none;
+}
+.contact-form { display: flex; flex-direction: column; gap: var(--space-lg); position: relative; z-index: 1; }
+.form-group { display: flex; flex-direction: column; gap: var(--space-xs); }
+.form-label {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-muted-ink);
+}
+.form-input {
+  width: 100%; padding: 13px 15px;
+  font-family: var(--ff-body); font-size: var(--fs-base);
+  color: var(--ink-black);
+  background: var(--paper-mid);
+  border: 3px solid var(--ink-black);
+  border-radius: 0; outline: none;
+  transition: border-color var(--duration) var(--ease-snap),
+              background var(--duration) var(--ease-snap),
+              box-shadow var(--duration) var(--ease-snap);
+}
+.form-input::placeholder { color: var(--text-muted-paper); }
+.form-input:focus {
+  border-color: var(--reiatsu-orange);
+  background: var(--paper-light);
+  box-shadow: 3px 3px 0 var(--reiatsu-orange);
+}
+.form-textarea { resize: vertical; min-height: 130px; }
+
+.form-status {
+  padding: var(--space-md);
+  border: 3px solid var(--hollow-teal);
+  background: rgba(0,127,124,0.1);
+  box-shadow: 3px 3px 0 var(--hollow-teal);
+}
+.form-status-text {
+  font-family: var(--ff-sub);
+  font-size: var(--fs-sm); font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-black); text-align: center;
+}
+
+/* =============================================
+   PIE DE PÁGINA (Footer) — Barra inferior de tinta
+   ============================================= */
+.site-footer {
+  border-top: 6px solid var(--ink-black);
+  padding: var(--space-2xl) 0 0 0;
+  background: var(--ink-black);
+  /* screentone */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(var(--ink-black), var(--ink-black));
+  background-size: 7px 7px, 100%;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  gap: var(--space-xl);
+  padding-bottom: var(--space-2xl);
+  padding-inline: var(--space-xl);
+}
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.footer-tagline {
+  font-family: var(--ff-sub);
+  color: var(--paper-worn);
+  font-size: var(--fs-sm);
+}
+.footer-nav {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+.footer-nav-link {
+  color: var(--paper-light);
+  font-family: var(--ff-heading);
+  font-size: var(--fs-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color var(--duration) var(--ease-snap);
+}
+.footer-nav-link:hover {
+  color: var(--reiatsu-orange);
+}
+.footer-socials { display: flex; gap: var(--space-md); }
+.footer-social-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  border: 3px solid var(--paper-worn);
+  color: var(--paper-mid);
+  font-family: var(--ff-sub); font-size: var(--fs-sm); font-weight: 700;
+  transition: all var(--duration) var(--ease-snap);
+}
+.footer-social-link:hover {
+  color: var(--ink-black);
+  background: var(--hollow-light);
+  border-color: var(--hollow-light);
+  box-shadow: 3px 3px 0 var(--hollow-teal);
+  transform: translate(-2px, -2px);
+}
+.footer-bottom {
+  background: rgba(0,0,0,0.5);
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.footer-copy { font-size: var(--fs-xs); color: var(--paper-worn); letter-spacing: 0.05em; }
+.footer-copy .heart {
+  color: var(--blood-bright); display: inline-block;
+  animation: heartPump 0.9s ease-in-out infinite;
+}
+@keyframes heartPump {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.3); }
+}
+
+/* =============================================
+   CARGADOR (Loader)
+   ============================================= */
+.loader {
+  display: flex; align-items: center; justify-content: center; min-height: 60vh;
+}
+.loader-spinner {
+  width: 36px; height: 36px;
+  border: 4px solid var(--paper-dark);
+  border-top-color: var(--reiatsu-orange);
+  border-right-color: var(--hollow-teal);
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* =============================================
+   DISEÑO RESPONSIVO (Mobile)
+   ============================================= */
+@media (max-width: 1024px) {
+  .projects-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+  .project-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .project-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .project-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+  .project-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+}
+
+@media (max-width: 768px) {
+  .hero-content { text-align: center; }
+  .hero-subtitle {
+    border-left: none; padding-left: 0;
+    border-bottom: 4px solid var(--reiatsu-orange);
+    padding-bottom: var(--space-md);
+  }
+  .hero-actions { justify-content: center; }
+  .scroll-indicator { align-items: center; }
+
+  .about-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .about-portrait { max-width: 200px; margin-inline: auto; }
+  .about-bio { text-align: center; }
+  .about-stats { justify-content: center; flex-wrap: wrap; gap: var(--space-lg); }
+  .stat-item { align-items: center; }
+  .skills-grid { grid-template-columns: 1fr; }
+
+  .projects-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .project-card:nth-child(n) { grid-column: 1; grid-row: auto; }
+  .project-thumb { aspect-ratio: 16 / 8; }
+
+  .contact-grid { grid-template-columns: 1fr; }
+  .section-intro {
+    border-left: none; padding-left: 0;
+    border-bottom: 4px solid var(--hollow-teal);
+    padding-bottom: var(--space-md);
+  }
+
+  /* Nuevo Footer Mobile */
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-nav {
+    justify-content: center;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container { padding-inline: var(--space-xl); }
+}

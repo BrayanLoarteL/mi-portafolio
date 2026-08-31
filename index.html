@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Portafolio web de Brayan — Desarrollador Web Frontend especializado en crear experiencias digitales modernas, rápidas y accesibles.">
+    <meta name="theme-color" content="#0A0A0A">
+    <title>Brayan | Desarrollador Web</title>
+
+    <!-- Preconexión de fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Estilos principales -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- ========== CABECERA (HEADER) ========== -->
+    <header class="site-header" id="site-header">
+        <div class="container header-inner">
+
+            <!-- Logotipo -->
+            <a href="#inicio" class="logo" aria-label="Ir al inicio">
+                &lt;B /&gt;
+            </a>
+
+            <!-- Navegación -->
+            <nav aria-label="Navegación principal">
+                <ul class="nav-menu" id="nav-menu" role="menubar">
+                    <li role="none">
+                        <a href="#inicio" class="nav-link active" role="menuitem" id="nav-inicio">
+                            Inicio
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#sobre-mi" class="nav-link" role="menuitem" id="nav-sobre-mi">
+                            Sobre mí
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#proyectos" class="nav-link" role="menuitem" id="nav-proyectos">
+                            Proyectos
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#contacto" class="nav-link" role="menuitem" id="nav-contacto">
+                            Contacto
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Botón de menú móvil (Hamburguesa) -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú" aria-expanded="false"
+                aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+    </header>
+
+    <!-- Capa superpuesta para menú móvil -->
+    <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
+    <main id="app-content" role="main">
+
+        <!-- Las secciones se cargarán dinámicamente aquí mediante Javascript desde la carpeta views/ -->
+
+    </main>
+
+    <!-- ========== PIE DE PÁGINA ========== -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <a href="#inicio" class="logo" style="margin-bottom: 0;">&lt;B /&gt;</a>
+                <p class="footer-tagline">Construyendo la web, un panel a la vez.</p>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="#inicio" class="footer-nav-link">Inicio</a>
+                <a href="#sobre-mi" class="footer-nav-link">Sobre mí</a>
+                <a href="#proyectos" class="footer-nav-link">Proyectos</a>
+                <a href="#contacto" class="footer-nav-link">Contacto</a>
+            </div>
+
+            <div class="footer-socials">
+                <a href="tel:+51916598466" class="footer-social-link" aria-label="Teléfono" id="social-phone">
+                    TL
+                </a>
+                <a href="https://linkedin.com/in/brayan-ernesto-loarte-leiva-b75a88375" target="_blank"
+                    rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn" id="social-linkedin">
+                    IN
+                </a>
+                <a href="mailto:loarteleivabrayan@gmail.com" class="footer-social-link" aria-label="Email"
+                    id="social-email">
+                    @
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+             <p class="footer-copy">© 2026 Brayan Ernesto Loarte Leiva. Todos los derechos reservados.</p>
+             <p class="footer-copy">Diseñado con <span class="heart" aria-label="amor">♥</span> y estética Bleach.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
