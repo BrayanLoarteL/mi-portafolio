@@ -174,6 +174,81 @@
     targets.forEach(el => observer.observe(el));
   }
 
+  // ─── Modal CV ────────────────────────────
+  function initModals() {
+    const cvModal = document.getElementById('cv-modal');
+    if (cvModal) {
+      window.addEventListener('click', (e) => {
+        if (e.target === cvModal) {
+          cvModal.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  // ─── Carruseles de Proyectos ────────────────────────────
+  function initCarousels() {
+    const carousels = document.querySelectorAll('.carousel');
+    
+    carousels.forEach(carousel => {
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      if (slides.length <= 1) return;
+
+      let currentIdx = 0;
+      let intervalId = null;
+
+      const showSlide = (index) => {
+        slides.forEach(s => s.classList.remove('active'));
+        slides[index].classList.add('active');
+      };
+
+      const nextSlide = () => {
+        currentIdx = (currentIdx + 1) % slides.length;
+        showSlide(currentIdx);
+      };
+
+      const prevSlide = () => {
+        currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+        showSlide(currentIdx);
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          prevSlide();
+          // Reiniciar timer
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = setInterval(nextSlide, 10000);
+          }
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          nextSlide();
+          // Reiniciar timer
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = setInterval(nextSlide, 10000);
+          }
+        });
+      }
+
+      carousel.addEventListener('mouseenter', () => {
+        intervalId = setInterval(nextSlide, 10000);
+      });
+
+      carousel.addEventListener('mouseleave', () => {
+        if (intervalId) clearInterval(intervalId);
+        intervalId = null;
+      });
+    });
+  }
+
   // ─── Inicialización ────────────────────────────────────
   function init() {
     // Actualizar secciones dinámicamente cargadas
@@ -203,6 +278,8 @@
     initContactForm();
     initSkillBars();
     initScrollAnimations();
+    initModals();
+    initCarousels();
   }
 
   // ─── Carga Dinámica de Vistas ────────────────────────────

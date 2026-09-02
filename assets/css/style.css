@@ -1506,3 +1506,63 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   justify-content: center;
   margin-top: 15px;
 }
+
+/* =========================================
+   CARRUSEL DE IMÁGENES PARA PROYECTOS
+   ========================================= */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
+  border-radius: 50%;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background: var(--accent);
+}
+
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
+
+/* Mostrar botones al hacer hover en la tarjeta */
+.project-card:hover .carousel-prev,
+.project-card:hover .carousel-next {
+  opacity: 1;
+}
