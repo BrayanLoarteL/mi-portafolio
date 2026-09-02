@@ -1044,27 +1044,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: flex; align-items: center; justify-content: center;
   position: relative;
 }
-/* Superposición de screentone en miniatura */
-.project-thumb-inner::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.2) 1px, transparent 1px);
-  background-size: 5px 5px;
-  z-index: 1;
-}
-/* Líneas diagonales — acción */
-.project-thumb-inner::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    -55deg,
-    transparent,
-    transparent 18px,
-    rgba(0,0,0,0.08) 18px,
-    rgba(0,0,0,0.08) 20px
-  );
-  z-index: 2;
-}
+/* Filtros visuales removidos */
 .project-number {
   font-family: var(--ff-heading);
   font-size: 5.5rem;
@@ -1443,12 +1423,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 /* =========================================
-   ESTILOS ESPECÍFICOS PARA EL PROYECTO 4
+   ANIMACIONES Y EFECTOS PARA TARJETAS
    ========================================= */
 
-/* Quitar el filtro de screentone y lineas */
-.no-filter::before,
-.no-filter::after {
 /* Efecto de zoom en TODA la tarjeta al hacer hover para todos los proyectos */
 .project-card {
   position: relative;
