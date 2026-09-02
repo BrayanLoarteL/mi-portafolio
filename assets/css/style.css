@@ -1452,22 +1452,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: none !important;
 }
 
-/* Efecto de zoom suave en la imagen */
-.zoom-container {
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.project-card:hover .zoom-container {
-  transform: scale(1.08);
-}
-
-/* Efecto para oscurecer el fondo de la web al hacer hover */
+/* Efecto de zoom en TODA la tarjeta al hacer hover */
 .project-card[data-panel="P-04"] {
   position: relative;
-  transition: z-index 0.4s;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.4s;
 }
 
 .project-card[data-panel="P-04"]:hover {
+  transform: scale(1.04); /* Zoom por fuera de la card */
   z-index: 100;
 }
 
