@@ -1441,3 +1441,48 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 @media (min-width: 1025px) {
   .container { padding-inline: var(--space-xl); }
 }
+
+/* =========================================
+   ESTILOS ESPECÍFICOS PARA EL PROYECTO 4
+   ========================================= */
+
+/* Quitar el filtro de screentone y lineas */
+.no-filter::before,
+.no-filter::after {
+  display: none !important;
+}
+
+/* Efecto de zoom suave en la imagen */
+.zoom-container {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.project-card:hover .zoom-container {
+  transform: scale(1.08);
+}
+
+/* Efecto para oscurecer el fondo de la web al hacer hover */
+.project-card[data-panel="P-04"] {
+  position: relative;
+  transition: z-index 0.4s;
+}
+
+.project-card[data-panel="P-04"]:hover {
+  z-index: 100;
+}
+
+/* Pseudo-elemento que cubre toda la pantalla */
+.project-card[data-panel="P-04"]::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: -1; /* Para que quede detrás de la tarjeta pero encima del resto gracias al z-index: 100 del hover */
+  pointer-events: none;
+  transition: background-color 0.4s ease;
+}
+
+/* Al hacer hover en el proyecto, el fondo se oscurece */
+.project-card[data-panel="P-04"]:hover::before {
+  background-color: rgba(0, 0, 0, 0.85);
+}
