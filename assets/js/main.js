@@ -249,36 +249,58 @@
     });
   }
 
-  // ─── Contador de Likes (LocalStorage) ─────────────────
-  function initLikes() {
+  // ─── Contador de Likes Global (Netlify Functions) ─────────────────
+  async function initLikes() {
     const btnLike = document.getElementById('btn-like');
     const likeCountEl = document.getElementById('like-count');
     if (!btnLike || !likeCountEl) return;
 
-    // Inicializar contador simulado
-    let currentLikes = parseInt(localStorage.getItem('portfolioLikes')) || 42;
     let hasLiked = localStorage.getItem('hasLiked') === 'true';
 
-    // Estado inicial
-    likeCountEl.textContent = currentLikes;
     if (hasLiked) {
       btnLike.classList.add('liked');
       btnLike.disabled = true;
       btnLike.title = "¡Gracias por tu like!";
     }
 
-    btnLike.addEventListener('click', () => {
+    // Obtener los likes iniciales desde el servidor (API)
+    try {
+      const response = await fetch('/.netlify/functions/likes');
+      if (response.ok) {
+        const data = await response.json();
+        likeCountEl.textContent = data.likes;
+      }
+    } catch (error) {
+      console.error('Error cargando likes:', error);
+    }
+
+    // Acción al dar clic
+    btnLike.addEventListener('click', async () => {
       if (!hasLiked) {
-        currentLikes++;
         hasLiked = true;
-        
-        localStorage.setItem('portfolioLikes', currentLikes.toString());
         localStorage.setItem('hasLiked', 'true');
         
-        likeCountEl.textContent = currentLikes;
         btnLike.classList.add('liked');
         btnLike.disabled = true;
         btnLike.title = "¡Gracias por tu like!";
+
+        // Sumar temporalmente en el frontend para respuesta rápida (Optimistic UI)
+        let currentLikes = parseInt(likeCountEl.textContent) || 42;
+        likeCountEl.textContent = currentLikes + 1;
+
+        // Enviar el like al servidor (API)
+        try {
+          const postResponse = await fetch('/.netlify/functions/likes', {
+            method: 'POST'
+          });
+          if (postResponse.ok) {
+            const data = await postResponse.json();
+            // Confirmar número final real desde la DB
+            likeCountEl.textContent = data.likes;
+          }
+        } catch (error) {
+          console.error('Error enviando like:', error);
+        }
       }
     });
   }
