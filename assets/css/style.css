@@ -1575,7 +1575,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   right: 25px;
   width: 60px;
   height: 60px;
-  background-color: #25D366;
   border-radius: 50%;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   display: flex;
@@ -1587,9 +1586,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 .btn-whatsapp-flotante img {
-  width: 35px;
-  height: 35px;
-  filter: brightness(0) invert(1);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .btn-whatsapp-flotante:hover {
