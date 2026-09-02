@@ -1565,3 +1565,83 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .project-card:hover .carousel-next {
   opacity: 1;
 }
+
+/* =========================================
+   BOTÓN FLOTANTE DE WHATSAPP
+   ========================================= */
+.btn-whatsapp-flotante {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse-wa 2s infinite;
+}
+
+.btn-whatsapp-flotante img {
+  width: 35px;
+  height: 35px;
+  filter: brightness(0) invert(1);
+}
+
+.btn-whatsapp-flotante:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+
+@keyframes pulse-wa {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* =========================================
+   BOTÓN LIKE
+   ========================================= */
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--paper-light);
+  border: 1px solid var(--text-muted);
+  color: var(--text-main);
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-like .like-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.btn-like:hover {
+  border-color: var(--accent);
+}
+
+.btn-like:hover .like-icon {
+  transform: scale(1.2);
+}
+
+.btn-like.liked {
+  background: rgba(220, 20, 60, 0.1);
+  border-color: #DC143C;
+  color: #DC143C;
+}
+
+.btn-like.liked .like-icon {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(90%) saturate(6000%) hue-rotate(345deg) brightness(95%) contrast(100%);
+  transform: scale(1.1);
+}

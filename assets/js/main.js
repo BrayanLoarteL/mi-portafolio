@@ -249,6 +249,40 @@
     });
   }
 
+  // ─── Contador de Likes (LocalStorage) ─────────────────
+  function initLikes() {
+    const btnLike = document.getElementById('btn-like');
+    const likeCountEl = document.getElementById('like-count');
+    if (!btnLike || !likeCountEl) return;
+
+    // Inicializar contador simulado
+    let currentLikes = parseInt(localStorage.getItem('portfolioLikes')) || 42;
+    let hasLiked = localStorage.getItem('hasLiked') === 'true';
+
+    // Estado inicial
+    likeCountEl.textContent = currentLikes;
+    if (hasLiked) {
+      btnLike.classList.add('liked');
+      btnLike.disabled = true;
+      btnLike.title = "¡Gracias por tu like!";
+    }
+
+    btnLike.addEventListener('click', () => {
+      if (!hasLiked) {
+        currentLikes++;
+        hasLiked = true;
+        
+        localStorage.setItem('portfolioLikes', currentLikes.toString());
+        localStorage.setItem('hasLiked', 'true');
+        
+        likeCountEl.textContent = currentLikes;
+        btnLike.classList.add('liked');
+        btnLike.disabled = true;
+        btnLike.title = "¡Gracias por tu like!";
+      }
+    });
+  }
+
   // ─── Inicialización ────────────────────────────────────
   function init() {
     // Actualizar secciones dinámicamente cargadas
@@ -280,6 +314,7 @@
     initScrollAnimations();
     initModals();
     initCarousels();
+    initLikes();
   }
 
   // ─── Carga Dinámica de Vistas ────────────────────────────
